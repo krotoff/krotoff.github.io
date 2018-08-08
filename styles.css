@@ -1,3 +1,4 @@
+/*div's*/
 div.main {
     background-color: dimgrey;
     width: 848px;
@@ -14,23 +15,85 @@ div.main {
 
 div.main.header {
     width: 448px;
-    height: 120px;
-    margin-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
+    height: 100px;
+    margin-top: 30px;
     border-radius: 10px 10px 0px 0px;
     align-items: center;
     justify-content: center
 }
 
+div.main.footer {
+    width: 770px;
+    height: 180px;
+    border-radius: 0px 0px 10px 10px;
+    align-items: center;
+    justify-content: space-around;
+}
 
+div.shipcell {
+    height: 160px;
+    width: 160px;
+    border: 1px solid whitesmoke;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+div.ship  {
+    background: darkred;
+    margin: auto;
+    display: block;
+    box-sizing: border-box;
+    border: 5px solid darkslategrey;
+    border-radius: 19px;
+    position: relative;
+}
+
+div.ship.battleship-hor {
+    height: 38px;
+    width: 152px;
+}
+
+div.ship.battleship-ver {
+    height: 152px;
+    width: 38px;
+    top: 50%;
+    left: 50%;
+}
+
+div.ship.cruiser-hor {
+    height: 38px;
+    width: 118px;
+}
+
+div.ship.cruiser-ver {
+    height: 118px;
+    width: 38px;
+}
+
+div.ship.destroyer-hor {
+    height: 38px;
+    width: 78px;
+}
+
+div.ship.destroyer-ver {
+    height: 78px;
+    width: 38px;
+}
+
+div.ship.submarine {
+    height: 38px;
+    width: 38px;
+}
+
+/*p's*/
 p.header {
-    font-family: "Times New Roman";
+    font-family: "Times New Roman", Times, serif;
     font-size: 60px;
     color: gold;
 }
 
-
+/*table's*/
 table.maintable {
     height: 402px;
     width: 400px;
@@ -41,7 +104,7 @@ table.maintable {
     border-radius: 5px;
 }
 
-
+/*td's*/
 td.tablecell {
     width: 38px;
     height: 38px;
