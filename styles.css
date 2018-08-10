@@ -1,0 +1,158 @@
+/*body*/
+body {
+    background-color: grey;
+}
+
+/*div's*/
+div.back {
+    background-color: grey;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+div.main {
+    background-color: dimgrey;
+    width: 830px;
+    height: 420px;
+    vertical-align: middle;
+    margin-top: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    border-radius: 10px;
+}
+
+div.main.header {
+    width: 448px;
+    height: 100px;
+    margin-top: 30px;
+    border-radius: 10px 10px 0px 0px;
+    align-items: center;
+    justify-content: center
+}
+
+div.main.footer {
+    width: 770px;
+    height: 180px;
+    border-radius: 0px 0px 10px 10px;
+    align-items: center;
+    justify-content: space-around;
+}
+
+div.field {
+    height: 400px;
+    width: 400px;
+    margin-left: 10px;
+    margin-top: 10px;
+    border: 1px solid darkslategrey;
+    border-radius: 0px;
+
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    box-sizing: border-box;
+    position: relative;
+
+    background-color: skyblue;
+}
+
+div.transparent-battlefield {
+    width: 400px;
+    height: 400px;
+    position: absolute;
+}
+
+div.fieldcell {
+    width: 40px;
+    height: 40px;
+    box-sizing: border-box;
+    border: 1px solid darkslategrey;
+}
+
+div.fieldcell.hit {
+    background: darkred;
+    border: 5px solid darkslategrey;
+}
+
+div.fieldcell.miss {
+    background: whitesmoke;
+    border: 5px solid darkslategrey;
+}
+
+div.shipcell {
+    height: 160px;
+    width: 160px;
+    border: 1px solid whitesmoke;
+    display: grid;
+    align-items: stretch;
+    justify-content: center;
+}
+
+div.half-shipcell {
+    display: flex;
+    flex-direction: row;
+    width: 160px;
+}
+
+div.ship  {
+    background: saddlebrown;
+    margin: auto;
+    box-sizing: border-box;
+    border: 5px solid #692301;
+    border-radius: 19px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+div.ship.battleship-hor {
+    height: 40px;
+    width: 160px;
+}
+
+div.ship.battleship-ver {
+    height: 160px;
+    width: 40px;
+}
+
+div.ship.cruiser-hor {
+    height: 40px;
+    width: 120px;
+}
+
+div.ship.cruiser-ver {
+    height: 120px;
+    width: 40px;
+}
+
+div.ship.destroyer-hor {
+    height: 40px;
+    width: 80px;
+}
+
+div.ship.destroyer-ver {
+    height: 80px;
+    width: 40px;
+}
+
+div.ship.submarine {
+    height: 40px;
+    width: 40px;
+}
+
+div.rotate-button {
+    background-image: url(src/img/rotate32.png);
+    width: 32px;
+    height: 32px;
+}
+
+/*p's*/
+p.header {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 60px;
+    color: gold;
+    text-shadow: black 2px 2px 4px;
+}

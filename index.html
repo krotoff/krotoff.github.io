@@ -1,113 +1,55 @@
 <html>
 <head>
-	<title>Education Time!</title>
-	<meta name="apple-itunes-app" content="app-id=1246239949, app- argument=https://dev.olportal.ru/test/, affiliate- data=optionalAffiliateData">
-	<style>
-        article, aside, details, figcaption, figure, footer,header,
-        menu, nav, section { display: block; }
-        .content {
-            margin: 0 auto;
-            width: 1006px;
-            font-size: 18px;
-            letter-spacing: .0030rem;
-            font-family: 'Helvetica Neue',Harial,Arial,sans-serif;
-            line-height: 25.2px;
-        }
-        .content p {
-            margin: 10px 0;
-            text-align: left;
-        }
-        .content h1 {
-            font-size: 36px;
-            line-height: 45px;
-        }
-        .content h2 {
-            font-size: 30px;
-            line-height: 45px;
-        }
-        .content h3 {
-            font-size: 22px;
-            line-height: 27.5px;
-        }
-        .content h4 {
-            font-size: 18px;
-            line-height: 25px;
-        }
-        .content a {
-            cursor: pointer;
-            text-decoration: none;
-            color: #ff256e;
-            border-bottom: 1px solid #ff256e;
-        }
-        .content p {
-            margin-bottom: 20px;
-        }
-        .content p.img {
-            text-align: center;
-        }
-        .content img {
-            max-width:100%;
-        }
-        .content .bash::before {
-            content: "$";
-            margin-right: 10px;
-        }
-        .content .javascript .new {
-            background-color: #3d4044;
-            margin: 0 -9px;
-            padding: 0 9px;
-        }
-        .content .javascript .remove {
-            background-color: #624545;
-            margin: 0 -9px;
-            padding: 0 9px;
-        }
-        .content ol li, .content ul li {
-            margin-bottom: 10px;
-            padding-left: 10px;
-        }
-        .text-center {
-            text-align: center;
-            margin: 15px 0;
-        }
-        .text-red {
-            color: #d80000;
-        }
-        .text-purple {
-            color: #820082;
-        }
-        .text-green {
-            color: #008000;
-        }
-        .text-underline {
-            text-decoration: underline;
-        }
-    </style>
+	<title>BATTLESHIP</title>
+	<meta charset="utf-8">
+	<link href="styles.css" rel="stylesheet">
 </head>
 <body>
-<h1>Тестовые ссылочки</h1>
-<div>
-<p>
-	Deep Links: 
-</p>
-<p>
-	<ul>
-		<li><a href="OLPortal-iOS://article/7212">OLPortal-iOS://article/7212</a>	(Лимонов М.П.)</li>
-		<li><a href="OLPortal-Nope://article/7212">OLPortal-Nope://article/7212</a>	(Битая ссылка)</li>
-	</ul>
-</p>
-<p>
-	Universal Links:
-</p>
-<p>
-	<ul>
-		<li><a href="https://dev.olportal.ru/test/app/?id=7212">https://dev.olportal.ru/test/app/?id=7212</a>	(Лимонов М.П.)</li>
-		<li><a href="https://dev.olportal.ru/test/app/?id=7605">https://dev.olportal.ru/test/app/?id=7605</a>	(Азарян П.К.)</li>
-		<li><a href="https://dev.olportal.ru/test/app/?id=3053032">https://dev.olportal.ru/test/app/?id=3053032</a>	(Лаврик П.В.)</li>
-		<li><a href="https://dev.olportal.ru/test/app/?id=3055110">https://dev.olportal.ru/test/app/?id=3055110</a>	(Специальный Гость)</li>
-	</ul>
-</p>
-Спасибо. До новых встреч!
-</div>
+    <div class="back">
+        <div class="main header">
+            <p class="header">BATTLESHIP</p>
+        </div>
+        <div class="main">
+            <div class="field" id="left"></div>
+            <div class="field" id="right"></div>
+        </div>
+        <div class="main footer">
+            <div class="shipcell">
+                <div id="battleship" class="ship battleship-hor" draggable="true">
+                    <div class="rotate-button"></div>
+                </div>
+            </div>
+            <div class="shipcell">
+                <div id="cruiser-1" class="ship cruiser-hor" draggable="true">
+                    <div class="rotate-button"></div>
+                </div>
+                <div id="cruiser-2" class="ship cruiser-hor" draggable="true">
+                    <div class="rotate-button"></div>
+                </div>
+            </div>
+            <div class="shipcell">
+                <div id="destroyer-1" class="ship destroyer-hor" draggable="true">
+                    <div class="rotate-button"></div>
+                </div>
+                <div id="destroyer-2" class="ship destroyer-hor" draggable="true">
+                    <div class="rotate-button"></div>
+                </div>
+                <div id="destroyer-3" class="ship destroyer-hor" draggable="true">
+                    <div class="rotate-button"></div>
+                </div>
+            </div>
+            <div class="shipcell">
+                <div class="half-shipcell">
+                    <div id="submarine-1" class="ship submarine" draggable="true"></div>
+                    <div id="submarine-2" class="ship submarine" draggable="true"></div>
+                </div>
+                <div class="half-shipcell">
+                    <div id="submarine-3" class="ship submarine" draggable="true"></div>
+                    <div id="submarine-4" class="ship submarine" draggable="true"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="src/index.js"></script>
 </body>
 </html>
