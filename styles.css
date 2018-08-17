@@ -13,8 +13,6 @@ div.back {
 
 div.main {
     background-color: dimgrey;
-    width: 830px;
-    height: 420px;
     vertical-align: middle;
     margin-top: 0px;
     margin-left: auto;
@@ -43,10 +41,7 @@ div.main.footer {
 }
 
 div.field {
-    height: 400px;
-    width: 400px;
-    margin-left: 10px;
-    margin-top: 10px;
+    margin: 10px;
     border: 1px solid darkslategrey;
     border-radius: 0px;
 
@@ -65,8 +60,6 @@ div.transparent-battlefield {
 }
 
 div.fieldcell {
-    width: 40px;
-    height: 40px;
     box-sizing: border-box;
     border: 1px solid darkslategrey;
 }
