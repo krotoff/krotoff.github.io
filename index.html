@@ -1,55 +1,176 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>BATTLESHIP</title>
-	<meta charset="utf-8">
-	<link href="styles.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gig Pager App</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+  />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: sans-serif;
+      background: #111;
+      color: #fff;
+      overflow: hidden;
+    }
+    .swiper {
+      width: 100vw;
+      height: 100vh;
+    }
+    .swiper-slide {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px;
+      text-align: center;
+      overflow-y: auto;
+    }
+    img.cover {
+      max-width: 100%;
+      max-height: 40vh;
+      object-fit: contain;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .song-info {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    .progress {
+      width: 100%;
+      max-width: 500px;
+      background: #444;
+      height: 10px;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .progress-bar {
+      height: 100%;
+      background: limegreen;
+      width: 100%;
+    }
+    .instruments {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin: 20px 0;
+      width: 100%;
+      max-width: 600px;
+      text-align: left;
+    }
+    .footer-next {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+    .setlist {
+      text-align: left;
+      max-width: 600px;
+    }
+  </style>
 </head>
 <body>
-    <div class="back">
-        <div class="main header">
-            <p class="header">BATTLESHIP</p>
-        </div>
-        <div class="main">
-            <div class="field" id="left"></div>
-            <div class="field" id="right"></div>
-        </div>
-        <div class="main footer">
-            <div class="shipcell">
-                <div id="battleship" class="ship battleship-hor" draggable="true">
-                    <div class="rotate-button"></div>
-                </div>
-            </div>
-            <div class="shipcell">
-                <div id="cruiser-1" class="ship cruiser-hor" draggable="true">
-                    <div class="rotate-button"></div>
-                </div>
-                <div id="cruiser-2" class="ship cruiser-hor" draggable="true">
-                    <div class="rotate-button"></div>
-                </div>
-            </div>
-            <div class="shipcell">
-                <div id="destroyer-1" class="ship destroyer-hor" draggable="true">
-                    <div class="rotate-button"></div>
-                </div>
-                <div id="destroyer-2" class="ship destroyer-hor" draggable="true">
-                    <div class="rotate-button"></div>
-                </div>
-                <div id="destroyer-3" class="ship destroyer-hor" draggable="true">
-                    <div class="rotate-button"></div>
-                </div>
-            </div>
-            <div class="shipcell">
-                <div class="half-shipcell">
-                    <div id="submarine-1" class="ship submarine" draggable="true"></div>
-                    <div id="submarine-2" class="ship submarine" draggable="true"></div>
-                </div>
-                <div class="half-shipcell">
-                    <div id="submarine-3" class="ship submarine" draggable="true"></div>
-                    <div id="submarine-4" class="ship submarine" draggable="true"></div>
-                </div>
-            </div>
-        </div>
+  <div class="swiper">
+    <div class="swiper-wrapper" id="swiper-wrapper">
+      <!-- Slides inserted here -->
     </div>
-    <script src="src/index.js"></script>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    const EMOJIS = {
+      'Vocal 1': '🎤',
+      'Vocal 2': '🎤',
+      'Vocal 3': '🎤',
+      'Guitar 1': '🎸',
+      'Guitar 2': '🎸',
+      'Bass': '🎸',
+      'Drums': '🥁',
+      'Keyboard': '🎹',
+      'Additional Tool 1': '🧰',
+      'Additional Tool 2': '🧰'
+    };
+
+    const loadCSV = () => {
+      Papa.parse('data.csv', {
+        download: true,
+        header: true,
+        complete: function(results) {
+          buildSlides(results.data);
+        }
+      });
+    };
+
+    function buildSlides(data) {
+      const wrapper = document.getElementById('swiper-wrapper');
+
+      // Intro slides
+      const introSlides = [
+        `<div class="swiper-slide">
+          <h1>Welcome to the Gig App 🎶</h1>
+          <p>Swipe to navigate through the performance</p>
+        </div>`,
+        `<div class="swiper-slide">
+          <h2>Setlist</h2>
+          <div class="setlist">
+            ${data.map(d => `<div>${d.Band} — <strong>${d.Song}</strong></div>`).join('')}
+          </div>
+        </div>`
+      ];
+      wrapper.innerHTML += introSlides.join('');
+
+      // Song slides
+      data.forEach(song => {
+        if (!song.id) return;
+        const instruments = Object.keys(EMOJIS)
+          .filter(key => song[key])
+          .map(key => `<div>${EMOJIS[key]} <strong>${key}</strong>: ${song[key]}</div>`) 
+          .join('');
+
+        const progressBar = song.Duration ? 
+          `<div class="progress"><div class="progress-bar" style="width: 100%"></div></div>
+           <div>${song.Duration}</div>` : '';
+
+        const nextSong = data.find(s => s.id === song['Next song']);
+        const nextFooter = nextSong ? `
+          <div class="footer-next">
+            ⏭️ Next: ${nextSong.Band} — <strong>${nextSong.Song}</strong>
+            ${nextSong.Cover ? `<br><img src="${nextSong.Cover}" style="height:50px; border-radius:6px; margin-top:5px;">` : ''}
+          </div>` : '';
+
+        wrapper.innerHTML += `
+          <div class="swiper-slide">
+            ${song.Cover ? `<img src="${song.Cover}" class="cover">` : ''}
+            <div class="song-info">
+              #${song.id}: ${song.Band} — <strong>${song.Song}</strong>
+            </div>
+            ${progressBar}
+            <div class="instruments">
+              ${instruments}
+            </div>
+            ${nextFooter}
+          </div>`;
+      });
+
+      new Swiper('.swiper', {
+        pagination: { el: '.swiper-pagination' },
+        spaceBetween: 30,
+        centeredSlides: true
+      });
+    }
+
+    loadCSV();
+  </script>
 </body>
 </html>
