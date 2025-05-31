@@ -25,6 +25,7 @@
     }
     .swiper-slide {
       box-sizing: border-box;
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -32,6 +33,27 @@
       padding: 20px;
       text-align: center;
       overflow-y: auto;
+    }
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+    }
+    .background::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
     }
     img.cover {
       max-width: 100%;
@@ -45,22 +67,34 @@
       margin-bottom: 10px;
     }
     .progress {
+      position: relative;
       width: 100%;
       max-width: 500px;
-      background: #444;
-      height: 10px;
-      border-radius: 5px;
-      overflow: hidden;
+      background: transparent;
+      height: 4px;
+      border-radius: 2px;
       margin-bottom: 10px;
     }
     .progress-bar {
       height: 100%;
-      background: limegreen;
+      background: rgba(255, 255, 255, 0.5);
       width: 100%;
+      border-radius: 2px;
+    }
+    .progress::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fff;
     }
     .instruments {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: 10px;
       margin: 20px 0;
       width: 100%;
@@ -115,22 +149,24 @@
     function buildSlides(data) {
       const wrapper = document.getElementById('swiper-wrapper');
 
-      // Intro slides
       const introSlides = [
         `<div class="swiper-slide">
-          <h1>Welcome to the Gig App 🎶</h1>
-          <p>Swipe to navigate through the performance</p>
+          <div class="content">
+            <h1>Welcome to the Gig App 🎶</h1>
+            <p>Swipe to navigate through the performance</p>
+          </div>
         </div>`,
         `<div class="swiper-slide">
-          <h2>Setlist</h2>
-          <div class="setlist">
-            ${data.map(d => `<div>${d.Band} — <strong>${d.Song}</strong></div>`).join('')}
+          <div class="content">
+            <h2>Setlist</h2>
+            <div class="setlist">
+              ${data.map(d => `<div>${d.Band} — <strong>${d.Song}</strong></div>`).join('')}
+            </div>
           </div>
         </div>`
       ];
       wrapper.innerHTML += introSlides.join('');
 
-      // Song slides
       data.forEach(song => {
         if (!song.id) return;
         const instruments = Object.keys(EMOJIS)
@@ -151,15 +187,18 @@
 
         wrapper.innerHTML += `
           <div class="swiper-slide">
-            ${song.Cover ? `<img src="${song.Cover}" class="cover">` : ''}
-            <div class="song-info">
-              #${song.id}: ${song.Band} — <strong>${song.Song}</strong>
+            ${song.Cover ? `<div class="background" style="background-image: url('${song.Cover}');"></div>` : ''}
+            <div class="content">
+              ${song.Cover ? `<img src="${song.Cover}" class="cover">` : ''}
+              <div class="song-info">
+                #${song.id}: ${song.Band} — <strong>${song.Song}</strong>
+              </div>
+              ${progressBar}
+              <div class="instruments">
+                ${instruments}
+              </div>
+              ${nextFooter}
             </div>
-            ${progressBar}
-            <div class="instruments">
-              ${instruments}
-            </div>
-            ${nextFooter}
           </div>`;
       });
 
