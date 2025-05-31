@@ -55,7 +55,6 @@
       z-index: 1;
       width: 100%;
       height: calc(100% - 100px);
-      background: rgba(100, 0, 0, 0.9);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -64,7 +63,6 @@
         position: relative;
         z-index: 1;
         width: 100%;
-        background: rgba(0, 100, 0, 0.9);
     }
     .song-top {
       display: flex;
@@ -152,7 +150,10 @@
     }
     .setlist {
       text-align: left;
-      max-width: 600px;
+      width: calc(100%-40px);
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
   </style>
 </head>
@@ -202,9 +203,10 @@
         </div>`,
         `<div class="swiper-slide">
           <div class="content">
-            <h2>Setlist</h2>
-            <div class="setlist">
-              ${data.map(d => `<div>${d.Band} — <strong>${d.Song}</strong></div>`).join('')}
+            <div>
+                <h2>Setlist</h2>
+                <div class="setlist">${data.map(d => `<div>${d.id}. ${d.Band} — <strong>${d.Song}</strong></div>`).join('')}
+            </div>
             </div>
           </div>
         </div>`
@@ -224,9 +226,13 @@
 
         const nextSong = data.find(s => s.id === song['Next song']);
         const nextFooter = nextSong ? `
-          <div class="footer-next">
-            ⏭️ Next: ${nextSong.Band} — <strong>${nextSong.Song}</strong>
-            ${nextSong.Cover ? `<br><img src="${nextSong.Cover}" style="height:50px; border-radius:6px; margin-top:5px;">` : ''}
+          <div class="footer-next" style="display: flex; align-items: center; gap: 15px;">
+            ${nextSong.Cover ? `<img src="${nextSong.Cover}" style="height:50px; width:50px; object-fit: cover; border-radius:6px;">` : ''}
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+              <div>⏭️ Next song:</div>
+              <div><strong>${nextSong.Song}</strong></div>
+              <div style="opacity: 0.7; font-size: 0.85rem;">${nextSong.Band}</div>
+            </div>
           </div>` : '';
 
         wrapper.innerHTML += `
