@@ -29,7 +29,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: space-between;
       padding: 20px;
       text-align: center;
       overflow-y: auto;
@@ -48,12 +48,14 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.9);
     }
     .content {
       position: relative;
       z-index: 1;
       width: 100%;
+      height: calc(100% - 100px);
+      background: rgba(100, 0, 0, 0.9);
     }
     .song-top {
       display: flex;
@@ -75,17 +77,20 @@
       flex-direction: column;
       justify-content: center;
       overflow: hidden;
+      padding-top: 8px;
     }
     .progress {
       position: relative;
       width: 100%;
       background: transparent;
-      height: 4px;
+      height: 16px;
       border-radius: 2px;
       margin-bottom: 4px;
+      display: flex;
+      align-items: center;
     }
     .progress-bar {
-      height: 100%;
+      height: 4px;
       background: rgba(255, 255, 255, 0.5);
       width: 100%;
       border-radius: 2px;
@@ -132,9 +137,9 @@
       text-align: left;
     }
     .footer-next {
-      margin-top: 20px;
       font-size: 0.9rem;
       opacity: 0.7;
+      padding-top: 20px;
     }
     .setlist {
       text-align: left;
@@ -230,6 +235,7 @@
               <div class="instruments">
                 ${instruments}
               </div>
+              <div></div>
               ${nextFooter}
             </div>
           </div>`;
@@ -237,7 +243,7 @@
 
       new Swiper('.swiper', {
         pagination: { el: '.swiper-pagination' },
-        spaceBetween: 30,
+        spaceBetween: 0,
         centeredSlides: true
       });
     }
