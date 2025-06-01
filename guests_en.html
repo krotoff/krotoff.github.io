@@ -333,6 +333,46 @@
       margin-top: 10px;
     }
 
+    .social-media-block {
+      text-align: center;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .social-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #fff;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      width: 10vw;
+    }
+
+    .social-link img {
+      height: 40px;
+      width: 40px;
+      object-fit: contain;
+      margin-bottom: 8px;
+    }
+
+    .social-link span {
+      font-size: 0.7rem;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .social-link:hover {
+      transform: scale(1.05);
+      opacity: 0.85;
+    }
+
   </style>
 </head>
 <body>
@@ -396,8 +436,7 @@
               <div class="host-item" style="width: ${avatarSize}vw">
                 <img class="host-avatar" src="${host.avatar}" alt="${host.name}" style="width: ${avatarSize}vw; height: ${avatarSize}vw;" />
                 <a class="host-link" href="https://t.me/${hostId}" target="_blank">
-                  <span>${host.name}</span>
-                  <img src="/resources/telegram.png" alt="Telegram" style="height: 1em;" />
+                  <span><img src="/resources/social_media/telegram.png" alt="Telegram" style="height: 1em; vertical-align: middle; margin-right: 0.3em;" />${host.name}</span>
                 </a>
               </div>
             `;
@@ -431,8 +470,29 @@
         `<div class="swiper-slide">
           <div class="content">
             <div class="main">
-              <h1>Welcome to the Gig App 🎶</h1>
+              <h1>Welcome to the Gig!🎶</h1>
               <div id="host-block" class="host-block"></div>
+              <div class="social-media-block">
+                <h2>Follow us:</h2>
+                <div class="social-links">
+                  <a href="https://t.me/limasouljams" target="_blank" class="social-link">
+                    <img src="/resources/social_media/telegram.png" alt="Telegram" />
+                    <span>Our Telegram channel</span>
+                  </a>
+                  <a href="https://t.me/cyprus_musicians_chat" target="_blank" class="social-link">
+                    <img src="/resources/social_media/telegram.png" alt="Telegram" />
+                    <span>Our big Telegram chat</span>
+                  </a>
+                  <a href="https://www.instagram.com/thejammers.cy/" target="_blank" class="social-link">
+                    <img src="/resources/social_media/instagram.png" alt="Instagram" />
+                    <span>Our Instagram</span>
+                  </a>
+                  <a href="https://www.facebook.com/thejammersmusiccommunity" target="_blank" class="social-link">
+                    <img src="/resources/social_media/facebook.png" alt="Facebook" />
+                    <span>Our Facebook</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>`,
