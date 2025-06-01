@@ -26,28 +26,66 @@
     }
     .swiper-controls {
       position: absolute;
+      width: calc(100vh-40px);
       bottom: 10px;
-      left: 0;
-      right: 0;
+      left: 20px;
+      right: 20px;
       z-index: 20;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
+      align-items: center;
       gap: 10px;
-      padding-bottom: 10px; /* Leave space above pagination */
+      padding-bottom: 10px;
     }
-
+    .swiper-slider {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      z-index: 20;
+    }
+    .swiper-controls input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+      width: 10rem;
+    }
+    .swiper-controls input[type="range"]::-webkit-slider-runnable-track {
+      background: #F4F4F4;
+      height: 0.25rem;
+      border-radius: 0.125rem;
+    }
+    .swiper-controls input[type="range"]::-moz-range-track {
+      background: #F4F4F4;
+      height: 0.25rem;
+      border-radius: 0.125rem;
+    }
+    .swiper-controls input[type="range"]::-moz-range-thumb {
+      border: none; /*Removes extra border that FF applies*/
+      border-radius: 0; /*Removes default border-radius that FF applies*/
+      background-color: #F4F4F4;
+      height: 0.75rem;
+      width: 0.75rem;
+    }
+    .swiper-controls input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; /* Override default look */
+      appearance: none;
+      margin-top: -0.25rem;
+      background-color: #F4F4F4;
+      border: 1px solid #B90016;
+      height: 0.75rem;
+      width: 0.75rem; 
+      border-radius: 0.375rem;   
+    }
     .swiper-controls button {
-      background: #222;
-      color: white;
-      border: 1px solid #555;
+      background: #F4F4F4;
+      color: #B90016;
+      border: 1px solid #B90016;
       border-radius: 5px;
       padding: 6px 12px;
       font-size: 0.9rem;
       cursor: pointer;
       transition: background 0.2s ease;
-    }
-    .swiper-controls button:hover {
-      background: #444;
     }
     .swiper {
       width: 100vw;
@@ -211,10 +249,11 @@
     </div>
   </div>
   <div class="swiper-controls">
-    <button id="firstPage">⏮ First</button>
     <button id="prevPage">◀ Prev</button>
+    <div class="swiper-slider">
+      <input type="range" id="swiperRange" min="0" value="0" />
+    </div>
     <button id="nextPage">Next ▶</button>
-    <button id="lastPage">Last ⏭</button>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -315,12 +354,21 @@
       const swiper = new Swiper('.swiper', {
         pagination: { el: '.swiper-pagination' },
         spaceBetween: 0,
-        centeredSlides: true
+        centeredSlides: true,
+        on: {
+          slideChange: () => {
+            document.getElementById('swiperRange').value = swiper.activeIndex;
+          }
+        }
       });
-      document.getElementById('firstPage').addEventListener('click', () => swiper.slideTo(0));
+      const rangeInput = document.getElementById('swiperRange');
+      rangeInput.max = swiper.slides.length - 1;
+      rangeInput.addEventListener('input', (e) => {
+        swiper.slideTo(parseInt(e.target.value, 10));
+      });
+
       document.getElementById('prevPage').addEventListener('click', () => swiper.slidePrev());
       document.getElementById('nextPage').addEventListener('click', () => swiper.slideNext());
-      document.getElementById('lastPage').addEventListener('click', () => swiper.slideTo(swiper.slides.length - 1));
     }
 
     loadCSV();
