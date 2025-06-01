@@ -9,11 +9,13 @@
     href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
   />
   <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
+    /* 
+      colors:
+      #B90016 - Red
+      #F4F4F4 - Light Gray
+      #1C1C1C - Dark Gray
+      #003DA5 - Blue
+     */
     html, body {
       margin: 0;
       padding: 0;
@@ -67,36 +69,38 @@
       width: 10rem;
     }
     .swiper-controls input[type="range"]::-webkit-slider-runnable-track {
-      background: #F4F4F4;
+      background: #1c1c1c;
       height: 0.25rem;
       border-radius: 0.125rem;
+      border: 1px solid #f4f4f4;
     }
     .swiper-controls input[type="range"]::-moz-range-track {
-      background: #F4F4F4;
+      background: #1c1c1c;
       height: 0.25rem;
       border-radius: 0.125rem;
+      border: 1px solid #f4f4f4;
     }
     .swiper-controls input[type="range"]::-moz-range-thumb {
       border: none; /*Removes extra border that FF applies*/
       border-radius: 0; /*Removes default border-radius that FF applies*/
-      background-color: #F4F4F4;
+      background-color: #1c1c1c;
       height: 0.75rem;
       width: 0.75rem;
     }
     .swiper-controls input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none; /* Override default look */
       appearance: none;
-      margin-top: -0.25rem;
-      background-color: #F4F4F4;
-      border: 1px solid #B90016;
+      margin-top: -0.325rem;
+      background-color: #1c1c1c;
+      border: 1px solid #f4f4f4;
       height: 0.75rem;
       width: 0.75rem; 
       border-radius: 0.375rem;   
     }
     .swiper-controls button {
-      background: #F4F4F4;
-      color: #B90016;
-      border: 1px solid #B90016;
+      background: #1c1c1c;
+      color: #f4f4f4;
+      border: 1px solid #f4f4f4;
       border-radius: 5px;
       padding: 6px 12px;
       font-size: 0.9rem;
@@ -142,7 +146,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.9);
+      /* background: rgba(0, 0, 0, 0.9); */
     }
     .content {
       position: relative;
@@ -242,7 +246,6 @@
     .footer-next {
       flex-shrink: 0;
       font-size: 0.9rem;
-      opacity: 0.7;
       padding-top: 10px;
       display: flex;
       align-items: center;
@@ -269,9 +272,33 @@
       text-overflow: ellipsis;
       font-size: 0.8rem;
     }
+    .background-img {
+      object-fit: cover;
+    }
+    .background-img-overflow {
+      background: rgba(0, 0, 0, 0.5);
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      position: absolute;
+      z-index: 1;
+    }
+    .image-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+    }
   </style>
 </head>
 <body>
+  <div class="image-wrapper">
+    <img class="background-img" src="/resources/background.png" alt="back" />
+    <div class="background-img-overflow"></div>
+  </div>
   <div class="logo-wrapper">
     <img src="/resources/logo.png" alt="Logo" class="logo"/>
   </div>
@@ -363,7 +390,6 @@
 
         wrapper.innerHTML += `
           <div class="swiper-slide">
-            ${song.Cover ? `<div class="background" style="background-image: url('${song.Cover}');"></div>` : ''}
             <div class="content">
               <div class="main">
                 <div class="song-top">
