@@ -292,6 +292,47 @@
       bottom: 0;
       z-index: 0;
     }
+    .host-block {
+      text-align: center;
+    }
+
+    .host-list {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+
+    .host-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .host-avatar {
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .host-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #00bfff;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .host-footer {
+      opacity: 0.8;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
   </style>
 </head>
 <body>
@@ -327,8 +368,8 @@
       'Bass': '🎸',
       'Drums': '🥁',
       'Keyboard': '🎹',
-      'Additional Tool 1': '🧰',
-      'Additional Tool 2': '🧰'
+      'Additional Tool 1': '🎻',
+      'Additional Tool 2': '🎻'
     };
 
     const loadCSV = () => {
@@ -341,6 +382,48 @@
       });
     };
 
+    function renderHostBlock(document, gigHosts, gigHostsInfo) {
+      const container = document.getElementById("host-block");
+      const hostCount = gigHosts.length;
+      const avatarSize = 100 / (hostCount + 2); // vw %
+
+      const hostHTML = `
+        <h2>Here are the hosts for tonight:</h2>
+        <div class="host-list">
+          ${gigHosts.map(hostId => {
+            const host = gigHostsInfo[hostId];
+            return `
+              <div class="host-item" style="width: ${avatarSize}vw">
+                <img class="host-avatar" src="${host.avatar}" alt="${host.name}" style="width: ${avatarSize}vw; height: ${avatarSize}vw;" />
+                <a class="host-link" href="https://t.me/${hostId}" target="_blank">
+                  <span>${host.name}</span>
+                  <img src="/resources/telegram.png" alt="Telegram" style="height: 1em;" />
+                </a>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        <div class="host-footer">
+          You could find us in the Hall or text us for any questions you have about the gig
+        </div>
+      `;
+
+      container.innerHTML = hostHTML;
+    }
+
+    const gigHostsInfo = {
+      "a_krotov": {
+        name: "Andrei Krotov",
+        avatar: "/resources/hosts/andrei_krotov.png"
+      },
+      "skirdapa": {
+        name: "Pavel Skirda",
+        avatar: "/resources/hosts/pavel_skirda.png"
+      }
+    };
+
+    const gigHosts = ["a_krotov", "skirdapa"];
+
     function buildSlides(data) {
       const wrapper = document.getElementById('swiper-wrapper');
 
@@ -349,7 +432,7 @@
           <div class="content">
             <div class="main">
               <h1>Welcome to the Gig App 🎶</h1>
-              <p>Swipe to navigate through the performance</p>
+              <div id="host-block" class="host-block"></div>
             </div>
           </div>
         </div>`,
@@ -427,6 +510,7 @@
 
       document.getElementById('prevPage').addEventListener('click', () => swiper.slidePrev());
       document.getElementById('nextPage').addEventListener('click', () => swiper.slideNext());
+      renderHostBlock(document, gigHosts, gigHostsInfo);
     }
 
     loadCSV();
