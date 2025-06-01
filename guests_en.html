@@ -166,6 +166,7 @@
     }
     .song-top {
       display: flex;
+      padding-top: 20px;
       gap: 20px;
       align-items: center;
       margin-bottom: 20px;
@@ -185,33 +186,6 @@
       justify-content: center;
       overflow: hidden;
       padding-top: 8px;
-    }
-    .progress {
-      position: relative;
-      width: 100%;
-      background: transparent;
-      height: 16px;
-      border-radius: 2px;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-    }
-    .progress-bar {
-      height: 4px;
-      background: rgba(255, 255, 255, 0.5);
-      width: 100%;
-      border-radius: 2px;
-    }
-    .progress::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #fff;
     }
     .meta-row {
       display: flex;
@@ -293,6 +267,7 @@
       z-index: 0;
     }
     .host-block {
+      padding-top: 20px;
       text-align: center;
     }
 
@@ -300,7 +275,7 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      gap: 10px;
+      gap: 40px;
       flex-wrap: wrap;
       margin-top: 15px;
       margin-bottom: 15px;
@@ -322,8 +297,8 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      color: #00bfff;
-      text-decoration: none;
+      color: #f4f4f4;
+      text-decoration: underline;
       font-size: 1rem;
     }
 
@@ -335,6 +310,7 @@
 
     .social-media-block {
       text-align: center;
+      padding-top: 50px;
     }
 
     .social-links {
@@ -428,7 +404,7 @@
       const avatarSize = 100 / (hostCount + 2); // vw %
 
       const hostHTML = `
-        <h2>Here are the hosts for tonight:</h2>
+        <span>Tonight’s hosts</span>
         <div class="host-list">
           ${gigHosts.map(hostId => {
             const host = gigHostsInfo[hostId];
@@ -436,15 +412,13 @@
               <div class="host-item" style="width: ${avatarSize}vw">
                 <img class="host-avatar" src="${host.avatar}" alt="${host.name}" style="width: ${avatarSize}vw; height: ${avatarSize}vw;" />
                 <a class="host-link" href="https://t.me/${hostId}" target="_blank">
-                  <span><img src="/resources/social_media/telegram.png" alt="Telegram" style="height: 1em; vertical-align: middle; margin-right: 0.3em;" />${host.name}</span>
+                  <span><img src="/resources/social_media/telegram_inline.svg" alt="Telegram" style="height: 1em; vertical-align: middle; margin-right: 0.3em;" />${host.name}</span>
                 </a>
               </div>
             `;
           }).join('')}
         </div>
-        <div class="host-footer">
-          You could find us in the Hall or text us for any questions you have about the gig
-        </div>
+        <a class="host-footer">DM for any questions or find us in the Hall</a>
       `;
 
       container.innerHTML = hostHTML;
@@ -452,11 +426,11 @@
 
     const gigHostsInfo = {
       "a_krotov": {
-        name: "Andrei Krotov",
+        name: "Andrei",
         avatar: "/resources/hosts/andrei_krotov.png"
       },
       "skirdapa": {
-        name: "Pavel Skirda",
+        name: "Pavel",
         avatar: "/resources/hosts/pavel_skirda.png"
       }
     };
@@ -470,26 +444,26 @@
         `<div class="swiper-slide">
           <div class="content">
             <div class="main">
-              <h1>Welcome to the Gig!🎶</h1>
+              <h1>Welcome to the Gig 🎶</h1>
               <div id="host-block" class="host-block"></div>
               <div class="social-media-block">
-                <h2>Follow us:</h2>
+                <span>Follow us:</span>
                 <div class="social-links">
                   <a href="https://t.me/limasouljams" target="_blank" class="social-link">
-                    <img src="/resources/social_media/telegram.png" alt="Telegram" />
-                    <span>Our Telegram channel</span>
+                    <img src="/resources/social_media/telegram.svg" alt="Telegram" />
+                    <span>Channel</span>
                   </a>
                   <a href="https://t.me/cyprus_musicians_chat" target="_blank" class="social-link">
-                    <img src="/resources/social_media/telegram.png" alt="Telegram" />
-                    <span>Our big Telegram chat</span>
+                    <img src="/resources/social_media/telegram.svg" alt="Telegram" />
+                    <span>Chat</span>
                   </a>
                   <a href="https://www.instagram.com/thejammers.cy/" target="_blank" class="social-link">
-                    <img src="/resources/social_media/instagram.png" alt="Instagram" />
-                    <span>Our Instagram</span>
+                    <img src="/resources/social_media/instagram.svg" alt="Instagram" />
+                    <span>Instagram</span>
                   </a>
                   <a href="https://www.facebook.com/thejammersmusiccommunity" target="_blank" class="social-link">
-                    <img src="/resources/social_media/facebook.png" alt="Facebook" />
-                    <span>Our Facebook</span>
+                    <img src="/resources/social_media/facebook.svg" alt="Facebook" />
+                    <span>Facebook</span>
                   </a>
                 </div>
               </div>
@@ -508,7 +482,7 @@
         </div>`
       ];
       wrapper.innerHTML += introSlides.join('');
-
+      const songsCount = data.length;
       data.forEach(song => {
         if (!song.id) return;
         const instruments = Object.keys(EMOJIS)
@@ -516,9 +490,7 @@
           .map(key => `<div>${EMOJIS[key]} <strong>${key}</strong>: ${song[key]}</div>`) 
           .join('');
 
-        const progressBar = song.Duration ? 
-          `<div class="progress"><div class="progress-bar" style="width: 100%"></div></div>
-           <div class="meta-row"><span>#${song.id}</span><span>${song.Duration}</span></div>` : '';
+        const progressBar = song.Duration ? `<div class="meta-row"><span>${song.id}/${songsCount}</span></div>` : '';
 
         const nextSong = data.find(s => s.id === song['Next song']);
         const nextFooter = nextSong ? `
