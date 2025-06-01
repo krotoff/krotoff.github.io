@@ -24,9 +24,43 @@
       color: #fff;
       overflow: hidden;
     }
+    .swiper-controls {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding-bottom: 10px; /* Leave space above pagination */
+    }
+
+    .swiper-controls button {
+      background: #222;
+      color: white;
+      border: 1px solid #555;
+      border-radius: 5px;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .swiper-controls button:hover {
+      background: #444;
+    }
     .swiper {
       width: 100vw;
       height: 100vh;
+    }
+    .swiper-pagination {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 10;
+      color: white;
     }
     .swiper-slide {
       box-sizing: border-box;
@@ -154,7 +188,7 @@
       font-size: 0.9rem;
       opacity: 0.7;
       padding-top: 10px;
-      padding-bottom: 10px;
+      padding-bottom: 50px;
       display: flex;
       align-items: center;
       gap: 15px;
@@ -175,7 +209,12 @@
     <div class="swiper-wrapper" id="swiper-wrapper">
       <!-- Slides inserted here -->
     </div>
-    <div class="swiper-pagination"></div>
+  </div>
+  <div class="swiper-controls">
+    <button id="firstPage">⏮ First</button>
+    <button id="prevPage">◀ Prev</button>
+    <button id="nextPage">Next ▶</button>
+    <button id="lastPage">Last ⏭</button>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -273,22 +312,18 @@
           </div>`;
       });
 
-      new Swiper('.swiper', {
+      const swiper = new Swiper('.swiper', {
         pagination: { el: '.swiper-pagination' },
         spaceBetween: 0,
         centeredSlides: true
       });
+      document.getElementById('firstPage').addEventListener('click', () => swiper.slideTo(0));
+      document.getElementById('prevPage').addEventListener('click', () => swiper.slidePrev());
+      document.getElementById('nextPage').addEventListener('click', () => swiper.slideNext());
+      document.getElementById('lastPage').addEventListener('click', () => swiper.slideTo(swiper.slides.length - 1));
     }
 
     loadCSV();
-
-window.addEventListener('load', () => {
-  console.log("Viewport height:", window.innerHeight);
-  const slide = document.querySelector('.swiper-slide');
-  if (slide) {
-    console.log("Slide height:", slide.getBoundingClientRect().height);
-  }
-});
   </script>
 </body>
 </html>
