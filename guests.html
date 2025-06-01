@@ -150,6 +150,7 @@
       width: 100%;
       height: 100%;
       padding-top: 50px;
+      padding-bottom: 50px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -157,7 +158,7 @@
     .main {
       flex: 1;
       overflow-y: auto;
-      padding-bottom: 20px;
+      padding-bottom: 50px;
     }
     .song-top {
       display: flex;
@@ -243,19 +244,30 @@
       font-size: 0.9rem;
       opacity: 0.7;
       padding-top: 10px;
-      padding-bottom: 50px;
       display: flex;
       align-items: center;
       gap: 15px;
     }
+    .gradient-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 500px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 1), transparent);
+      pointer-events: none;
+      z-index: 10;
+    }
     .setlist {
       text-align: left;
       max-width: 600px;
+      line-height: 1.4;
     }
     .setlist div {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-size: 0.8rem;
     }
   </style>
 </head>
@@ -319,7 +331,7 @@
             <div class="main">
               <h2>Setlist</h2>
               <div class="setlist">
-                ${data.map(d => `<div>#${d.id} ${d.Band} — <strong>${d.Song}</strong></div>`).join('')}
+                ${data.map(d => `<div>${d.id < 10 ? ` ${d.id}` : d.id}. ${d.Band} — <strong>${d.Song}</strong></div>`).join('')}
               </div>
             </div>
           </div>
