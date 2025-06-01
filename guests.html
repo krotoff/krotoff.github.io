@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gig Pager App</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+  />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: sans-serif;
+      background: #111;
+      color: #fff;
+      overflow: hidden;
+    }
+    .swiper {
+      width: 100vw;
+      height: 100vh;
+    }
+    .swiper-slide {
+      box-sizing: border-box;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      overflow: hidden;
+      height: calc(100vh - 100px);
+    }
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+    }
+    .background::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding-bottom: 20px;
+    }
+    .song-top {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    img.cover {
+      width: 100px;
+      height: auto;
+      object-fit: contain;
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .song-meta {
+      flex: 1;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      padding-top: 8px;
+    }
+    .progress {
+      position: relative;
+      width: 100%;
+      background: transparent;
+      height: 16px;
+      border-radius: 2px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+    }
+    .progress-bar {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.5);
+      width: 100%;
+      border-radius: 2px;
+    }
+    .progress::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fff;
+    }
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+    .song-title {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .band-name {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .instruments {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 20px 0;
+      width: 100%;
+      max-width: 600px;
+      text-align: left;
+    }
+    .footer-next {
+      flex-shrink: 0;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .setlist {
+      text-align: left;
+      max-width: 600px;
+    }
+    .setlist div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  </style>
+</head>
+<body>
+  <div class="swiper">
+    <div class="swiper-wrapper" id="swiper-wrapper">
+      <!-- Slides inserted here -->
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    const EMOJIS = {
+      'Vocal 1': '🎤',
+      'Vocal 2': '🎤',
+      'Vocal 3': '🎤',
+      'Guitar 1': '🎸',
+      'Guitar 2': '🎸',
+      'Bass': '🎸',
+      'Drums': '🥁',
+      'Keyboard': '🎹',
+      'Additional Tool 1': '🧰',
+      'Additional Tool 2': '🧰'
+    };
+
+    const loadCSV = () => {
+      Papa.parse('data.csv', {
+        download: true,
+        header: true,
+        complete: function(results) {
+          buildSlides(results.data);
+        }
+      });
+    };
+
+    function buildSlides(data) {
+      const wrapper = document.getElementById('swiper-wrapper');
+
+      const introSlides = [
+        `<div class="swiper-slide">
+          <div class="content">
+            <div class="main">
+              <h1>Welcome to the Gig App 🎶</h1>
+              <p>Swipe to navigate through the performance</p>
+            </div>
+          </div>
+        </div>`,
+        `<div class="swiper-slide">
+          <div class="content">
+            <div class="main">
+              <h2>Setlist</h2>
+              <div class="setlist">
+                ${data.map(d => `<div>#${d.id} ${d.Band} — <strong>${d.Song}</strong></div>`).join('')}
+              </div>
+            </div>
+          </div>
+        </div>`
+      ];
+      wrapper.innerHTML += introSlides.join('');
+
+      data.forEach(song => {
+        if (!song.id) return;
+        const instruments = Object.keys(EMOJIS)
+          .filter(key => song[key])
+          .map(key => `<div>${EMOJIS[key]} <strong>${key}</strong>: ${song[key]}</div>`) 
+          .join('');
+
+        const progressBar = song.Duration ? 
+          `<div class="progress"><div class="progress-bar" style="width: 100%"></div></div>
+           <div class="meta-row"><span>#${song.id}</span><span>${song.Duration}</span></div>` : '';
+
+        const nextSong = data.find(s => s.id === song['Next song']);
+        const nextFooter = nextSong ? `
+          <div class="footer-next">
+            ${nextSong.Cover ? `<img src="${nextSong.Cover}" style="height:50px; width:50px; object-fit: cover; border-radius:6px;">` : ''}
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+              <div>⏭️ Next song:</div>
+              <div><strong>${nextSong.Song}</strong></div>
+              <div style="opacity: 0.7; font-size: 0.85rem;">${nextSong.Band}</div>
+            </div>
+          </div>` : '';
+
+        wrapper.innerHTML += `
+          <div class="swiper-slide">
+            ${song.Cover ? `<div class="background" style="background-image: url('${song.Cover}');"></div>` : ''}
+            <div class="content">
+              <div class="main">
+                <div class="song-top">
+                  ${song.Cover ? `<img src="${song.Cover}" class="cover">` : ''}
+                  <div class="song-meta">
+                    ${progressBar}
+                    <div class="song-title">${song.Song}</div>
+                    <div class="band-name">${song.Band}</div>
+                  </div>
+                </div>
+                <div class="instruments">
+                  ${instruments}
+                </div>
+              </div>
+              ${nextFooter}
+            </div>
+          </div>`;
+      });
+
+      new Swiper('.swiper', {
+        pagination: { el: '.swiper-pagination' },
+        spaceBetween: 0,
+        centeredSlides: true
+      });
+    }
+
+    loadCSV();
+
+window.addEventListener('load', () => {
+  console.log("Viewport height:", window.innerHeight);
+  const slide = document.querySelector('.swiper-slide');
+  if (slide) {
+    console.log("Slide height:", slide.getBoundingClientRect().height);
+  }
+});
+  </script>
+</body>
+</html>
