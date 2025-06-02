@@ -408,10 +408,13 @@
         <div class="host-list">
           ${gigHosts.map(hostId => {
             const host = gigHostsInfo[hostId];
+            const hostURL = `https://t.me/${hostId}`;
             return `
               <div class="host-item" style="width: ${avatarSize}vw">
-                <img class="host-avatar" src="${host.avatar}" alt="${host.name}" style="width: ${avatarSize}vw; height: ${avatarSize}vw;" />
-                <a class="host-link" href="https://t.me/${hostId}" target="_blank">
+                <a href="${hostURL}" target="_blank">
+                  <img class="host-avatar" src="${host.avatar}" href="${hostURL}" alt="${host.name}" style="width: ${avatarSize}vw; height: ${avatarSize}vw;" />
+                </a>
+                <a class="host-link" href="${hostURL}" target="_blank">
                   <span><img src="/resources/social_media/telegram_inline.svg" alt="Telegram" style="height: 1em; vertical-align: middle; margin-right: 0.3em;" />${host.name}</span>
                 </a>
               </div>
