@@ -495,7 +495,7 @@
 
         const progressBar = song.Duration ? `<div class="meta-row"><span>${song.id}/${songsCount}</span></div>` : '';
 
-        const nextSong = data.find(s => s.id === song['Next song']);
+        const nextSong = data.find(s => s.id === song['Next Song']);
         const nextFooter = nextSong ? `
           <div class="footer-next">
             ${nextSong.Cover ? `<img src="${nextSong.Cover}" style="height:50px; width:50px; object-fit: cover; border-radius:6px;">` : ''}
